@@ -44,7 +44,7 @@ model BTES "BTES model"
 	protected
 		Modelica.SIunits.Temperature TflowArray(displayUnit="°C") "BHE array inlet temperature";
 		Modelica.SIunits.Temperature TreturnArray(displayUnit="°C") "BHE array outlet temperature";
-		parameter Real rEquivalent=if Integer(BTESlayout) == 1 then BHEspacing / sqrt(Modelica.Constants.pi) elseif Integer(BTESlayout) == 2 then (nBHEelementsR - 0.5) * BHEspacing / sqrt(nBHEs) else 3 ^ (1 / 4) * BHEspacing / sqrt(2 * Modelica.Constants.pi) "Radius of BHE volume";
+		parameter Real rEquivalent=if Integer(BTESlayout) == 1 then BHEspacing / sqrt(Modelica.Constants.pi) elseif Integer(BTESlayout) == 2 then (MoBTES.Components.Storage.BoreholeStorage.Functions.NumberOfBHErings(nBHEs) - 0.5) * BHEspacing / sqrt(nBHEs) else 3 ^ (1 / 4) * BHEspacing / sqrt(2 * Modelica.Constants.pi) "Radius of BHE volume";
 		parameter Real heights[nElementsZ]=MoBTES.Components.Storage.BoreholeStorage.Functions.ElementHeights(MoBTES.Components.Storage.BoreholeStorage.Functions.SupermeshZ(BHEstart,useUpperGroutSection, lengthUpperGroutSection , BHElength, settingsData.relativeModelDepth, location.layerThicknessVector), integer(floor(settingsData.nBHEelementsZdesired / 2)), settingsData.dZminDesired, settingsData.growthFactor, nElementsZ) "Vector for vertical discretization";
 		parameter Real meshZ[nElementsZ+1]=cat(1, {0}, array(sum(heights[i] for i in 1:j) for j in 1:nElementsZ)) "Vector containing absolute depth of mesh nodes";
 		parameter Real meshR[nElementsR+1]=MoBTES.Components.Storage.BoreholeStorage.Functions.MeshR(nBHEsPerRingVector, rEquivalent, nElementsR) "Vector containing absolute radius of mesh nodes";
